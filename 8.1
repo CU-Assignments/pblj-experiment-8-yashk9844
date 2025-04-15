@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+</head>
+<body>
+    <h2>Login Form</h2>
+    <form method="post" action="LoginServlet">
+        Username: <input type="text" name="username" required><br><br>
+        Password: <input type="password" name="password" required><br><br>
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+public class LoginServlet extends HttpServlet {
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // Set the response content type
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        // Retrieve user credentials from request
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        // Hardcoded login check (you could replace this with DB validation)
+        String validUsername = "admin";
+        String validPassword = "1234";
+
+        // Validate credentials
+        if (username.equals(validUsername) && password.equals(validPassword)) {
+            out.println("<html><body>");
+            out.println("<h2>Welcome, " + username + "!</h2>");
+            out.println("</body></html>");
+        } else {
+            out.println("<html><body>");
+            out.println("<h2>Login Failed. Invalid username or password.</h2>");
+            out.println("</body></html>");
+        }
+
+        out.close();
+    }
+}
+
+<web-app>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>LoginServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+</web-app>
